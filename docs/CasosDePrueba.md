@@ -57,3 +57,64 @@
 
 ---
 
+### **Caso 5: Escala Grande**
+- **Nombre**: `Aplicar 1000 movimientos sobre 1000 vagones`
+- **Objetivo**: Medir escalabilidad en entradas grandes.
+- **Entrada**:
+  ```scala  
+  Tren inicial: List.range(1, 1001).map(_.toChar)  
+  Movimientos: 1000 aleatorios (Uno/Dos con n ±1, ±2).  
+  ```  
+- **Resultado Esperado**: 1001 estados generados.
+- **Resultado Obtenido**: ✅ Pasó en **0.013s**.
+
+---
+
+## **2. Pruebas para `definirManiobra`**
+### **Caso 1: Prueba de Juguete**
+- **Nombre**: `Prueba de juguete: 10 vagones y 10 movimientos`
+- **Objetivo**: Validar la reversión de un tren pequeño.
+- **Entrada**:
+  ```scala  
+  Tren inicial: List(1, 2, ..., 10)  
+  Tren objetivo: List(10, 9, ..., 1)  
+  ```  
+- **Resultado Esperado**: Maniobra con ≤10 movimientos.
+- **Resultado Obtenido**: ✅ Pasó en **0.001s**.
+
+---
+
+### **Caso 2: Escala Pequeña**
+- **Nombre**: `Prueba pequeña: 100 vagones`
+- **Objetivo**: Verificar reversión de trenes medianos.
+- **Entrada**:
+  ```scala  
+  Tren inicial: (1 to 100).toList  
+  Tren objetivo: Tren inicial.reverse  
+  ```  
+- **Resultado Esperado**: Maniobra con ≤100 movimientos.
+- **Resultado Obtenido**: ✅ Pasó en **0s**.
+
+---
+
+### **Caso 3: Escala Media**
+- **Nombre**: `Prueba mediana: 500 vagones`
+- **Objetivo**: Evaluar eficiencia en trenes grandes.
+- **Entrada**:
+  ```scala  
+  Tren inicial: (1 to 500).toList  
+  Tren objetivo: Tren inicial.reverse  
+  ```  
+- **Resultado Esperado**: Maniobra con ≤500 movimientos.
+- **Resultado Obtenido**: ✅ Pasó en **0.001s**.
+
+---
+
+### **Caso 4: Escala Grande**
+- **Nombre**: `Prueba grande: 1000 vagones`
+- **Objetivo**: Medir rendimiento en operaciones masivas.
+- **Entrada**:
+  ```scala  
+  Tren inicial: (1 to 1000).toList  
+  Tren objetivo: Tren inicial.reverse  
+  ```
