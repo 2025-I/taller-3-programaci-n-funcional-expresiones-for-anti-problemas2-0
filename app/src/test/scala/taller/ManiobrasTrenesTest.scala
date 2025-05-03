@@ -99,4 +99,57 @@ class ManiobrasTrenesTest extends AnyFunSuite {
     assert(estadoFinal._1.isEmpty && estadoFinal._2 == tren)
   }
 
+  test("Mover 100 vagones al trayecto Uno") {
+    val tren = generarTren(100)
+    val estadoFinal = objAplicarMov.aplicarMovimiento((tren, Nil, Nil), Uno(100))
+    assert(estadoFinal._1.isEmpty && estadoFinal._2 == tren)
+  }
+
+  test("Maniobra completa con 500 elementos [performance]") {
+    val tren = generarTren(500)
+    val movs = objDefinirManiobra.definirManiobra(tren, tren.reverse)
+    val estados = objAplicarMovs.aplicarMovimientosConFor((tren, Nil, Nil), movs)
+    assert(estados.last._1.size == 500)
+  }
+  test("Maniobra completa con 1000 elementos [performance]") {
+    val tren = generarTren(1000)
+    val movs = objDefinirManiobra.definirManiobra(tren, tren.reverse)
+    val estados = objAplicarMovs.aplicarMovimientosConFor((tren, Nil, Nil), movs)
+    assert(estados.last._1.size == 1000)
+  }
+
+  test("Mover 1000 elementos entre trayectos [stack safety]") {
+    val tren = generarTren(1000)
+    val movs = List.fill(10)(Uno(100)) ++ List.fill(10)(Uno(-100))
+    val estados = objAplicarMovs.aplicarMovimientosConFor((tren, Nil, Nil), movs)
+    assert(estados.last._1 == tren)
+  }
+  // ____________________________________________definirManiobra____________________________________________________
+  test("Prueba de juguete: 10 vagones y 10 movimientos") {
+    val trenInicial = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    val trenObjetivo = List(10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    val maniobra = new definirManiobra().definirManiobra(trenInicial, trenObjetivo)
+    assert(maniobra.size <= 10)
+  }
+
+  test("Prueba pequeña: 100 vagones y movimientos") {
+    val trenInicial = (1 to 100).toList
+    val trenObjetivo = trenInicial.reverse
+    val maniobra = new definirManiobra().definirManiobra(trenInicial, trenObjetivo)
+    assert(maniobra.size <= 100)
+  }
+
+  test("Prueba mediana: 500 vagones y movimientos") {
+    val trenInicial = (1 to 500).toList
+    val trenObjetivo = trenInicial.reverse
+    val maniobra = new definirManiobra().definirManiobra(trenInicial, trenObjetivo)
+    assert(maniobra.size <= 500)
+  }
+
+  test("Prueba grande: 1000 vagones y movimientos") {
+    val trenInicial = (1 to 1000).toList
+    val trenObjetivo = trenInicial.reverse
+    val maniobra = new definirManiobra().definirManiobra(trenInicial, trenObjetivo)
+    assert(maniobra.size <= 1000)
+  }
 }
