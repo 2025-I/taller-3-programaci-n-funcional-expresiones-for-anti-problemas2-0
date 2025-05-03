@@ -54,4 +54,49 @@ class ManiobrasTrenesTest extends AnyFunSuite {
     assert(estados.head == (List.range(1, 101).map(_.toChar), List(), List()))
 
   }
+
+  test("Aplicar 500 movimientos secuenciales sobre 500 vagones") {
+    // Estado inicial con 500 vagones en la primera lista
+    val e = (List.range(1, 501).map(_.toChar), List(), List()) // Vagones representados por caracteres 'a' a 'z', luego más caracteres...
+
+    // Generamos 500 movimientos alternando Uno y Dos con valores aleatorios de 1 y -1
+    val movimientos = (1 to 500).map {
+      case i if i % 2 == 0 => Uno(scala.util.Random.nextInt(3) - 2) // Alterna entre Uno(1) y Uno(-2)
+      case _ => Dos(scala.util.Random.nextInt(3) - 1) // Alterna entre Dos(1) y Dos(2)
+    }.toList
+
+    val estados = objAplicarMovs.aplicarMovimientos(e, movimientos)
+
+    assert(estados.length == 501)
+
+    assert(estados.head == (List.range(1, 501).map(_.toChar), List(), List()))
+
+  }
+
+
+  test("Aplicar 1000 movimientos secuenciales sobre 1000 vagones") {
+    // Estado inicial con 1000 vagones en la primera lista
+    val e = (List.range(1, 1001).map(_.toChar), List(), List()) // Vagones representados por caracteres 'a' a 'z', luego más caracteres...
+
+    // Generamos 1000 movimientos alternando Uno y Dos con valores aleatorios de 1 y -1
+    val movimientos = (1 to 1000).map {
+      case i if i % 2 == 0 => Uno(scala.util.Random.nextInt(3) - 2) // Alterna entre Uno(1) y Uno(-2)
+      case _ => Dos(scala.util.Random.nextInt(3) - 1) // Alterna entre Dos(1) y Dos(2)
+    }.toList
+
+    val estados = objAplicarMovs.aplicarMovimientos(e, movimientos)
+
+    assert(estados.length == 1001)
+
+    // Verificamos que el primer estado es el estado inicial
+    assert(estados.head == (List.range(1, 1001).map(_.toChar), List(), List()))
+
+  }
+
+  test("Mover 10 vagones al trayecto Uno") {
+    val tren = generarTren(10)
+    val estadoFinal = objAplicarMov.aplicarMovimiento((tren, Nil, Nil), Uno(10))
+    assert(estadoFinal._1.isEmpty && estadoFinal._2 == tren)
+  }
+
 }
